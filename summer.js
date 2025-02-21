@@ -1,40 +1,40 @@
 const app = document.getElementById("app")
 const users = [
-    {
-        email: 'teste@teste.com',
-        phone: '99999999999',
-        ref: 100,
-        refBy: null
-    },
-    {
-        email: 'morgan@morgan.com',
-        phone: '99999999999',
-        ref: 200,
-        refBy: 100
-    },
-    {
-        email: 'morgan@morgan.com',
-        phone: '99999999999',
-        ref: 300,
-        refBy: 100
-    }
+  {
+    email: 'teste@teste.com',
+    phone: '99999999999',
+    ref: 100,
+    refBy: null
+  },
+  {
+    email: 'morgan@morgan.com',
+    phone: '99999999999',
+    ref: 200,
+    refBy: 100
+  },
+  {
+    email: 'morgan@morgan.com',
+    phone: '99999999999',
+    ref: 300,
+    refBy: 100
+  }
 ]
 
 const getUser = (userData) => {
-    return users.find((user) => {
-        return user.email == userData.email
-    })
+  return users.find((user) => {
+    return user.email == userData.email
+  })
 }
 
 const getTotalSubscribers = (userData) => {
-    const subs = users.filter((user) => {
-        return user.refBy == userData.ref
-    })
-    return subs.length
+  const subs = users.filter((user) => {
+    return user.refBy == userData.ref
+  })
+  return subs.length
 }
 
 const showInvite = (userData) => {
-    app.innerHTML = `
+  app.innerHTML = `
     <main>
         <h3>Inscrição confirmada!</h3>
 
@@ -58,53 +58,53 @@ const showInvite = (userData) => {
         </p>
       </section>
   `
-    app.setAttribute('class', 'page-invite')
-    updateImageLinks()
+  app.setAttribute('class', 'page-invite')
+  updateImageLinks()
 }
 
 const saveUser = (userData) => {
-    const newUser = {
-        ...userData,
-        ref: Math.round(Math.random() * 200),
-        refBy: 100
-    }
+  const newUser = {
+    ...userData,
+    ref: Math.round(Math.random()*200),
+    refBy: 100
+  }
 
-    users.push(newUser)
-    return newUser
+  users.push(newUser)
+  return newUser
 }
 
 const formAction = () => {
-    const form = document.getElementById("form")
-    form.onsubmit = (event) => {
-        event.preventDefault()
-        const formData = new FormData(form)
-        const userData = {
-            email: formData.get('email'),
-            phone: formData.get('phone'),
-        }
-
-        const user = getUser(userData)
-        if (user) {
-            showInvite(user)
-        } else {
-            const newUser = saveUser(userData)
-            showInvite(newUser)
-        }
-
+  const form = document.getElementById("form")
+  form.onsubmit = (event) => {
+    event.preventDefault()
+    const formData = new FormData(form)
+    const userData = {
+      email: formData.get('email'),
+      phone: formData.get('phone'),
     }
+
+    const user = getUser(userData)
+    if(user){
+      showInvite(user)
+    }else{
+      const newUser = saveUser(userData)
+      showInvite(newUser)
+    }
+
+  }
 }
 
 const updateImageLinks = () => {
     document.querySelectorAll('img').forEach((img) => {
-        const src = img.getAttribute("src");
-        if (src && !src.startsWith("http")) {
-            img.src = `https://raw.githubusercontent.com/maykbrito/my-public-files/main/nlw-19/${src}`;
-        }
+      const src = img.getAttribute("src"); 
+      if (src && !src.startsWith("http")) {  
+        img.src = `https://raw.githubusercontent.com/maykbrito/my-public-files/main/nlw-19/${src}`;
+      }
     });
 };
 
 const startApp = () => {
-    const content = `
+  const content = `
       <main>
         <section class="about">
           <div class="section-header">
@@ -148,12 +148,12 @@ const startApp = () => {
       </main>
   `
 
-    app.innerHTML = content
-    app.setAttribute('class', 'page-start')
-    updateImageLinks()
-    formAction()
+  app.innerHTML = content
+  app.setAttribute('class', 'page-start')
+  updateImageLinks()
+  formAction()
 }
 
-startApp();
+startApp()
 
 document.querySelector("header").onclick = () => startApp()
